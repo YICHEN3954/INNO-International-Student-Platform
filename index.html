@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>INNO Prototype</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="phone-frame">
+        <header class="top-bar">
+          <div>
+            <p class="eyebrow">Verified student social</p>
+            <h1>INNO</h1>
+          </div>
+          <button class="icon-button" id="resetButton" type="button" aria-label="Reset prototype" title="Reset prototype">
+            <span aria-hidden="true">↺</span>
+          </button>
+        </header>
+
+        <section class="progress-strip" aria-label="Prototype progress">
+          <span class="progress-dot active" data-step="login"></span>
+          <span class="progress-dot" data-step="verify"></span>
+          <span class="progress-dot" data-step="profile"></span>
+          <span class="progress-dot" data-step="friends"></span>
+          <span class="progress-dot" data-step="chat"></span>
+          <span class="progress-dot" data-step="events"></span>
+        </section>
+
+        <section id="screen" class="screen" aria-live="polite"></section>
+
+        <nav class="bottom-nav" aria-label="Main sections">
+          <button type="button" data-nav="friends" aria-label="Recommendations" title="Recommendations">
+            <span aria-hidden="true">⌁</span>
+            <small>Home</small>
+          </button>
+          <button type="button" data-nav="chat" aria-label="Chat" title="Chat">
+            <span aria-hidden="true">◐</span>
+            <small>Chat</small>
+          </button>
+          <button type="button" data-nav="events" aria-label="Events" title="Events">
+            <span aria-hidden="true">◇</span>
+            <small>Events</small>
+          </button>
+          <button type="button" data-nav="profile" aria-label="Profile" title="Profile">
+            <span aria-hidden="true">◎</span>
+            <small>Profile</small>
+          </button>
+        </nav>
+      </section>
+
+      <aside class="context-panel">
+        <h2>MVP Scope</h2>
+        <p>
+          This prototype uses local browser storage instead of a real database.
+          It proves the flow first: verification, matching, consent, chat, and events.
+        </p>
+        <div class="metric-row">
+          <span>Friend requests</span>
+          <strong id="requestMetric">0</strong>
+        </div>
+        <div class="metric-row">
+          <span>Chats started</span>
+          <strong id="chatMetric">0</strong>
+        </div>
+        <div class="metric-row">
+          <span>Events joined</span>
+          <strong id="eventMetric">0</strong>
+        </div>
+      </aside>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
