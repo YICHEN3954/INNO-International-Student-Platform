@@ -2,14 +2,17 @@
 
 INNO is a WebApp MVP for a verified international student social platform.
 
-The first version intentionally does not use a database. It uses mock data and browser `localStorage` to simulate:
+This version uses Firebase Realtime Database for changing user data:
 
+- Email/password authentication
 - School email verification
 - Profile setup
-- Friend recommendations
 - Friend request consent
 - Chat messages
 - Event sign-ups
+- Reports
+
+Mock friend recommendations and mock event cards are still local prototype data.
 
 ## Run
 
@@ -23,21 +26,54 @@ Then open:
 http://localhost:4173
 ```
 
-## Database Plan
+## Firebase Data
 
-For the first prototype, no database setup is required.
+The app uses Firebase Authentication email/password accounts. After login, it writes data under these Realtime Database paths using `auth.uid`:
 
-Later, when the flow is validated, the easiest production-style options are:
+- `users/{userId}/login`
+- `users/{userId}/verified`
+- `users/{userId}/profile`
+- `users/{userId}/requests`
+- `users/{userId}/joinedEvents`
+- `chats/{userId}/friends/{friendId}/messages`
+- `reports/{userId}`
 
-- Supabase: good for SQL tables, auth, storage, and quick student profiles.
-- Firebase: good for realtime chat and fast mobile migration.
+The current MVP still stores only lightweight UI preferences in `localStorage`, such as the current screen and translation toggle.
 
-Recommended future tables/collections:
+## Enable Email Login
 
-- users
-- profiles
-- friend_requests
-- messages
-- events
-- event_signups
-- reports
+In Firebase Console:
+
+1. Open Authentication.
+2. Open Sign-in method.
+3. Enable Email/Password.
+4. Save.
+
+## Firebase Rules For Prototype Testing
+
+For authenticated testing, Realtime Database can restrict users to their own data:
+
+```json
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "chats": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "reports": {
+      "$uid": {
+        ".read": false,
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    }
+  }
+}
+```
